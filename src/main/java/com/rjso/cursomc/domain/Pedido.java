@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Pedido implements Serializable{
@@ -23,12 +26,15 @@ public class Pedido implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
 	private Calendar instante;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
+	@JsonManagedReference
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;
 	
@@ -37,6 +43,7 @@ public class Pedido implements Serializable{
 	private Endereco enderecoDeEntrega;
 	
 	@OneToMany(mappedBy = "id.pedido")
+	@JsonProperty("Itens")
 	private Set<ItemPedido> itensPedido = new HashSet<ItemPedido>();
 	
 	public Pedido() {
@@ -98,6 +105,7 @@ public class Pedido implements Serializable{
 		this.itensPedido = itensPedido;
 	}
 	
+	@JsonIgnore
 	public Set<Produto> getItens() {
 		Set<Produto> itens = new HashSet<Produto>();
 		for (ItemPedido x : itensPedido) {
