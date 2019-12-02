@@ -20,5 +20,11 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria não encontrada. Id: " + id +
 				" Tipo: " + Categoria.class.getName()));
 	}
+	
+	public Categoria insert(Categoria obj) {
+		//Se o id do objeto for diferente de null, o repositório irá atualizar os dados, e não criar uma nova categoria.
+		obj.setId(null);
+		return repo.save(obj);
+	}
 
 }
