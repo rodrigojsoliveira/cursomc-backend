@@ -2,8 +2,12 @@ package com.rjso.cursomc.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.rjso.cursomc.domain.Categoria;
 import com.rjso.cursomc.repositories.CategoriaRepository;
@@ -45,6 +49,11 @@ public class CategoriaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new IntegridadeDeDadosException("Não é possível excluir categoria contendo produtos.");
 		}
+	}
+
+	public Page<Categoria> findPage(Integer pagina, Integer linhasPorPagina, String ordenaPor, String direcao) {
+		PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordenaPor);
+		return repo.findAll(pageRequest);
 	}
 
 }
