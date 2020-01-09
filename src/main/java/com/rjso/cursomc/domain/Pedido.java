@@ -42,7 +42,7 @@ public class Pedido implements Serializable{
 	private Endereco enderecoDeEntrega;
 	
 	@OneToMany(mappedBy = "id.pedido")
-	@JsonProperty("Itens")
+	@JsonProperty("itens")
 	private Set<ItemPedido> itensPedido = new HashSet<ItemPedido>();
 	
 	public Pedido() {

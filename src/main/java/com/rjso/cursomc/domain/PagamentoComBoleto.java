@@ -5,15 +5,17 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.rjso.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
-public class PagamentoComBoleto extends Pagamento{
+@JsonTypeName("pagamentoComBoleto")
+public class PagamentoComBoleto extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Calendar dataVencimento;
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Calendar dataPagamento;
 
 	public PagamentoComBoleto() {
@@ -41,5 +43,5 @@ public class PagamentoComBoleto extends Pagamento{
 	public void setDataPagamento(Calendar dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
-	
+
 }
